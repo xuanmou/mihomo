@@ -317,6 +317,11 @@ func New(options LC.Tun, tunnel C.Tunnel, additions ...inbound.Addition) (l *Lis
 		Inet6Address:          options.Inet6Address,
 		DisableICMPForwarding: options.DisableICMPForwarding,
 	}
+	if options.DisableICMPForwarding {
+		log.Infoln("[ICMP] echo requests are answered locally (disable-icmp-forwarding)")
+	} else {
+		log.Infoln("[ICMP] echo requests follow the rules: a selected outbound which can carry ICMP is used, and a direct route otherwise")
+	}
 	l = &Listener{
 		closed:  false,
 		options: options,

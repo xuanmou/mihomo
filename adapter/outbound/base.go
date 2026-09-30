@@ -398,6 +398,12 @@ func (p *autoCloseProxyAdapter) ListenPacketContext(ctx context.Context, metadat
 	return pc, nil
 }
 
+// WrappedAdapter returns the outbound this adapter wraps. It lets callers look up optional
+// interfaces on the outbound itself, because embedding C.ProxyAdapter does not promote them here.
+func (p *autoCloseProxyAdapter) WrappedAdapter() C.ProxyAdapter {
+	return p.ProxyAdapter
+}
+
 func (p *autoCloseProxyAdapter) Close() error {
 	p.closeOnce.Do(func() {
 		log.Debugln("Closing outdated proxy [%s]", p.Name())

@@ -22,6 +22,9 @@ func (h *ListenerHandler) PrepareConnection(network string, source M.Socksaddr, 
 			log.Infoln("[ICMP] %s %s --> %s using fake ping echo", network, source, destination)
 			return nil, nil
 		}
+		if proxyDestination, err := h.prepareICMPProxy(source, destination, routeContext, timeout); err != nil || proxyDestination != nil {
+			return proxyDestination, err
+		}
 		log.Infoln("[ICMP] %s %s --> %s using DIRECT", network, source, destination)
 		directRouteDestination, err := ping.ConnectDestination(context.TODO(), log.SingLogger, dialer.ICMPControl(destination.Addr), destination.Addr, routeContext, timeout)
 		if err != nil {

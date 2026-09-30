@@ -151,6 +151,75 @@ type ProxyAdapter interface {
 	Close() error
 }
 
+// ICMPProxyAdapter is implemented by outbounds whose proxy can carry ICMP echo requests.
+type ICMPProxyAdapter interface {
+	ProxyAdapter
+	// NewICMPConn dials an ICMP socket through the proxy to the destination in metadata.
+	// The returned connection exchanges complete IP packets, including their IP headers: the echo
+	// requests received from the TUN device are written to it, and the packets read from it can be
+	// written back to the TUN device as they are.
+	NewICMPConn(ctx context.Context, metadata *Metadata) (net.Conn, error)
+}
+
+// adapterWrapper is implemented by the wrappers which only embed ProxyAdapter (adapter.Proxy and
+// the auto close wrapper of adapter.ParseProxy), so optional interfaces are not promoted to them.
+type adapterWrapper interface {
+	WrappedAdapter() ProxyAdapter
+}
+
+// RealProxyAdapter returns the outbound behind those wrappers.
+func RealProxyAdapter(adapter ProxyAdapter) ProxyAdapter {
+	for i := 0; i < 16; i++ { // the wrappers are never nested this deep
+		var inner ProxyAdapter
+		switch wrapper := adapter.(type) {
+		case Proxy: // adapter.Proxy from the rule engine
+			inner = wrapper.Adapter()
+		case adapterWrapper: // auto close wrapper of adapter.ParseProxy
+			inner = wrapper.WrappedAdapter()
+		}
+		if inner == nil {
+			return adapter
+		}
+		adapter = inner
+	}
+	return adapter
+}
+
+// ResolveProxyAdapter returns the outbound a dial would use for adapter: proxy groups are followed
+// to the member they selected, and the wrappers above are unwrapped, so that optional interfaces
+// can be looked up on the result.
+func ResolveProxyAdapter(adapter ProxyAdapter, metadata *Metadata) ProxyAdapter {
+	current := RealProxyAdapter(adapter)
+	for i := 0; i < 16 && current != nil; i++ { // a proxy group chain is never this deep
+		next := current.Unwrap(metadata, false)
+		if next == nil {
+			return current
+		}
+		current = RealProxyAdapter(next)
+	}
+	return current
+}
+
+// CanHandleICMP reports whether adapter can handle an ICMP echo request: either it carries the
+// request through its proxy, or the ICMP path answers it on its own (a direct route, and an
+// unreachable answer for adapters which reject the request). Only an outbound which transports
+// TCP and UDP alone reports false, so that a rule selecting it is skipped the way a UDP rule
+// without UDP support is skipped.
+func CanHandleICMP(adapter ProxyAdapter, metadata *Metadata) bool {
+	outbound := ResolveProxyAdapter(adapter, metadata)
+	if outbound == nil {
+		return false
+	}
+	if _, ok := outbound.(ICMPProxyAdapter); ok {
+		return true
+	}
+	switch outbound.Type() {
+	case Direct, Compatible, Reject, RejectDrop:
+		return true
+	}
+	return false
+}
+
 type DelayHistory struct {
 	Time  time.Time `json:"time"`
 	Delay uint16    `json:"delay"`

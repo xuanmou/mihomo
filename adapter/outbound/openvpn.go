@@ -233,6 +233,15 @@ func (o *OpenVPN) IsL3Protocol(metadata *C.Metadata) bool {
 	return true
 }
 
+// NewICMPConn implements C.ICMPProxyAdapter
+func (o *OpenVPN) NewICMPConn(ctx context.Context, metadata *C.Metadata) (net.Conn, error) {
+	tunDevice, _, err := o.run(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return dialICMPThroughStack(ctx, tunDevice, metadata.DstIP)
+}
+
 func (o *OpenVPN) Close() error {
 	if o.runCancel != nil {
 		o.runCancel()

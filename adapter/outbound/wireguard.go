@@ -858,3 +858,11 @@ func (w *WireGuard) ProxyInfo() C.ProxyInfo {
 func (w *WireGuard) IsL3Protocol(metadata *C.Metadata) bool {
 	return true
 }
+
+// NewICMPConn implements C.ICMPProxyAdapter
+func (w *WireGuard) NewICMPConn(ctx context.Context, metadata *C.Metadata) (net.Conn, error) {
+	if err := w.init(ctx); err != nil {
+		return nil, err
+	}
+	return dialICMPThroughStack(ctx, w.tunDevice, metadata.DstIP)
+}

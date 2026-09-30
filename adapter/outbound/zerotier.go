@@ -1334,6 +1334,18 @@ func (z *ZeroTier) ProxyInfo() C.ProxyInfo {
 	return info
 }
 
+// NewICMPConn implements C.ICMPProxyAdapter
+func (z *ZeroTier) NewICMPConn(ctx context.Context, metadata *C.Metadata) (net.Conn, error) {
+	if err := z.ensureStarted(ctx); err != nil {
+		return nil, err
+	}
+	_, device, err := z.networkStackFor(metadata.DstIP)
+	if err != nil {
+		return nil, err
+	}
+	return dialICMPThroughStack(ctx, device, metadata.DstIP)
+}
+
 func (z *ZeroTier) IsL3Protocol(*C.Metadata) bool {
 	return true
 }

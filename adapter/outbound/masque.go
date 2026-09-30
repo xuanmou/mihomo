@@ -538,3 +538,14 @@ func (w *Masque) ProxyInfo() C.ProxyInfo {
 func (w *Masque) IsL3Protocol(metadata *C.Metadata) bool {
 	return true
 }
+
+// NewICMPConn implements C.ICMPProxyAdapter
+func (w *Masque) NewICMPConn(ctx context.Context, metadata *C.Metadata) (net.Conn, error) {
+	if w.l4Client != nil {
+		return nil, errors.New("masque L4 proxy mode does not carry ICMP")
+	}
+	if err := w.run(ctx); err != nil {
+		return nil, err
+	}
+	return dialICMPThroughStack(ctx, w.tunDevice, metadata.DstIP)
+}

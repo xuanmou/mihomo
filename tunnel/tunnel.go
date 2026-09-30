@@ -112,6 +112,24 @@ func (t tunnel) HandleUDPPacket(packet C.UDPPacket, metadata *C.Metadata) {
 	}
 }
 
+func (t tunnel) HandleICMPRequest(metadata *C.Metadata) (C.ProxyAdapter, C.Rule, error) {
+	if !isHandle(metadata.Type) {
+		return nil, nil, nil
+	}
+	fixMetadata(metadata)
+	// the destination is already an IP and an echo request carries no domain, so do not look a host
+	// up for it: only the rules which can decide on an IP take part (domain rules are ignored) and
+	// the destination itself is never rewritten by the enhanced mode mappings
+	if !metadata.Valid() {
+		return nil, nil, errors.New("invalid ICMP metadata")
+	}
+	proxy, rule, err := resolveMetadata(metadata)
+	if err != nil || proxy == nil {
+		return nil, nil, err
+	}
+	return proxy, rule, nil
+}
+
 func (t tunnel) NatTable() C.NatTable {
 	return natTable
 }
@@ -683,6 +701,11 @@ func match(metadata *C.Metadata, helper C.RuleMatchHelper) (C.Proxy, C.Rule, err
 
 				if metadata.NetWork == C.UDP && !adapter.SupportUDP() {
 					log.Debugln("%s UDP is not supported", adapter.Name())
+					continue
+				}
+
+				if metadata.NetWork == C.ICMP && !C.CanHandleICMP(adapter, metadata) {
+					log.Debugln("%s ICMP is not supported", adapter.Name())
 					continue
 				}
 
