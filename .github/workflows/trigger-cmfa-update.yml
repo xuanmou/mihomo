@@ -12,8 +12,10 @@ on:
       - "v*"
       
 jobs:
-  # Send "core-updated" to MetaCubeX/ClashMetaForAndroid to trigger update-dependencies
+  # Send "core-updated" to MetaCubeX/ClashMetaForAndroid to trigger update-dependencies.
+  # The maintainer GitHub App only exists on the upstream repository.
   trigger-CMFA-update:
+    if: github.repository == 'MetaCubeX/mihomo'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v3

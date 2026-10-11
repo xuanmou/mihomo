@@ -107,6 +107,10 @@ func (tt *TestTunnel) NatTable() C.NatTable {
 	return tt.NatTableFn()
 }
 
+func (tt *TestTunnel) HandleICMPRequest(metadata *C.Metadata) (C.ProxyAdapter, C.Rule, error) {
+	return nil, nil, nil
+}
+
 func (tt *TestTunnel) Close() error {
 	return tt.CloseFn()
 }

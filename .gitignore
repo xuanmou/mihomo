@@ -6,6 +6,9 @@
 *.dylib
 bin/*
 
+# Vendored wintun DLLs are embedded by //go:embed and must be committed.
+!third_party/sing-tun/internal/wintun/**/wintun.dll
+
 # Test binary, build with `go test -c`
 *.test
 

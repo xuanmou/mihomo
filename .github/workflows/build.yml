@@ -91,71 +91,6 @@ jobs:
           - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go125, goversion: '1.25' }
           - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go125, goversion: '1.25' }
 
-          # Go 1.24 with special patch can work on Windows 7
-          # https://github.com/MetaCubeX/go/commits/release-branch.go1.24/
-          - { goos: windows, goarch: '386', output: '386-go124', goversion: '1.24' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-v1-go124, goversion: '1.24' }
-          - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go124, goversion: '1.24' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go124, goversion: '1.24' }
-
-          # Go 1.23 with special patch can work on Windows 7
-          # https://github.com/MetaCubeX/go/commits/release-branch.go1.23/
-          - { goos: windows, goarch: '386', output: '386-go123', goversion: '1.23' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-v1-go123, goversion: '1.23' }
-          - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go123, goversion: '1.23' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go123, goversion: '1.23' }
-
-          # Go 1.22 with special patch can work on Windows 7
-          # https://github.com/MetaCubeX/go/commits/release-branch.go1.22/
-          - { goos: windows, goarch: '386', output: '386-go122', goversion: '1.22' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-v1-go122, goversion: '1.22' }
-          - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go122, goversion: '1.22' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go122, goversion: '1.22' }
-
-          # Go 1.21 can revert commit `9e4385` to work on Windows 7
-          # https://github.com/golang/go/issues/64622#issuecomment-1847475161
-          # (OR we can just use golang1.21.4 which unneeded any patch)
-          - { goos: windows, goarch: '386', output: '386-go121', goversion: '1.21' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-v1-go121, goversion: '1.21' }
-          - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go121, goversion: '1.21' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go121, goversion: '1.21' }
-
-          # Go 1.20 is the last release that will run on any release of Windows 7, 8, Server 2008 and Server 2012. Go 1.21 will require at least Windows 10 or Server 2016.
-          - { goos: windows, goarch: '386', output: '386-go120', goversion: '1.20' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-v1-go120, goversion: '1.20' }
-          - { goos: windows, goarch: amd64, goamd64: v2, output: amd64-v2-go120, goversion: '1.20' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-v3-go120, goversion: '1.20' }
-
-          # Go 1.24 is the last release that will run on macOS 11 Big Sur. Go 1.25 will require macOS 12 Monterey or later.
-          - { goos: darwin, goarch: arm64, output: arm64-go124, goversion: '1.24' }
-          - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-v1-go124, goversion: '1.24' }
-          - { goos: darwin, goarch: amd64, goamd64: v2, output: amd64-v2-go124, goversion: '1.24' }
-          - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-v3-go124, goversion: '1.24' }
-
-          # Go 1.22 is the last release that will run on macOS 10.15 Catalina. Go 1.23 will require macOS 11 Big Sur or later.
-          - { goos: darwin, goarch: arm64, output: arm64-go122, goversion: '1.22' }
-          - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-v1-go122, goversion: '1.22' }
-          - { goos: darwin, goarch: amd64, goamd64: v2, output: amd64-v2-go122, goversion: '1.22' }
-          - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-v3-go122, goversion: '1.22' }
-
-          # Go 1.20 is the last release that will run on macOS 10.13 High Sierra or 10.14 Mojave. Go 1.21 will require macOS 10.15 Catalina or later.
-          - { goos: darwin, goarch: arm64, output: arm64-go120, goversion: '1.20' }
-          - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-v1-go120, goversion: '1.20' }
-          - { goos: darwin, goarch: amd64, goamd64: v2, output: amd64-v2-go120, goversion: '1.20' }
-          - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-v3-go120, goversion: '1.20' }
-
-          # Go 1.23 is the last release that requires Linux kernel version 2.6.32 or later. Go 1.24 will require Linux kernel version 3.2 or later.
-          - { goos: linux, goarch: '386', output: '386-go123', goversion: '1.23' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-v1-go123, goversion: '1.23', test: test }
-          - { goos: linux, goarch: amd64, goamd64: v2, output: amd64-v2-go123, goversion: '1.23' }
-          - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-v3-go123, goversion: '1.23' }
-
-          # only for test
-          - { goos: linux, goarch: '386', output: '386-go120', goversion: '1.20' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-v1-go120, goversion: '1.20', test: test }
-          - { goos: linux, goarch: amd64, goamd64: v2, output: amd64-v2-go120, goversion: '1.20' }
-          - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-v3-go120, goversion: '1.20' }
-
     steps:
     - uses: actions/checkout@v6
 
@@ -187,10 +122,17 @@ jobs:
       run: go env
 
     - name: Set variables
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         VERSION="${GITHUB_REF_NAME,,}-$(git rev-parse --short HEAD)"
         VERSION="${VERSION//\//-}"
-        PackageVersion="$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name' | sed 's/v//g' | awk -F '.' '{$NF = $NF + 1; print}' OFS='.').${VERSION/-/.}"
+        TAG="$(curl -sS -H "Authorization: Bearer ${GITHUB_TOKEN}" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest" | jq -r '.tag_name // empty')"
+        if [ -n "${TAG}" ] && [ "${TAG}" != "null" ]; then
+          PackageVersion="$(printf '%s\n' "${TAG}" | sed 's/v//g' | awk -F '.' '{$NF = $NF + 1; print}' OFS='.').${VERSION/-/.}"
+        else
+          PackageVersion="0.0.0.${VERSION/-/.}"
+        fi
         if [ -n "${{ github.event.inputs.version }}" ]; then
           VERSION=${{ github.event.inputs.version }}
           PackageVersion="${VERSION#v}"
@@ -369,7 +311,7 @@ jobs:
         Release created at  ${{ env.BUILDTIME }}
         Synchronize ${{ github.ref_name }} branch code updates, keeping only the latest version
         <br>
-        [我应该下载哪个文件? / Which file should I download?](https://github.com/MetaCubeX/mihomo/wiki/FAQ)
+        [我应该下载哪个文件? / Which file should I download?](https://github.com/${{ github.repository }}/releases)
         [二进制文件筛选 / Binary file selector](https://metacubex.github.io/Meta-Docs/startup/#_1)
         [查看文档 / Docs](https://metacubex.github.io/Meta-Docs/)
         EOF
@@ -394,7 +336,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          ref: Meta
+          ref: ${{ github.repository == 'MetaCubeX/mihomo' && 'Meta' || github.ref_name }}
           fetch-depth: '0'
           fetch-tags: 'true'
 
@@ -402,9 +344,14 @@ jobs:
         run: |
           echo "CURRENTVERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
           git fetch --tags
-          echo "PREVERSION=$(git describe --tags --abbrev=0 HEAD)" >> $GITHUB_ENV
+          if PREVERSION="$(git describe --tags --abbrev=0 HEAD 2>/dev/null)"; then
+            echo "PREVERSION=${PREVERSION}" >> $GITHUB_ENV
+          else
+            echo "PREVERSION=" >> $GITHUB_ENV
+          fi
 
       - name: Force push Alpha branch to Meta
+        if: github.repository == 'MetaCubeX/mihomo'
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
@@ -415,7 +362,7 @@ jobs:
 
       - name: Tag the commit on Alpha
         run: |
-          git checkout Alpha 
+          git checkout ${{ github.ref_name }}
           git tag ${{ github.event.inputs.version }}
           git push origin ${{ github.event.inputs.version }}
         env:
@@ -423,9 +370,13 @@ jobs:
 
       - name: Generate release notes
         run: |
-            cp ./.github/genReleaseNote.sh ./
-            bash ./genReleaseNote.sh -v ${PREVERSION}...${CURRENTVERSION}
-            rm ./genReleaseNote.sh
+            if [ -n "${PREVERSION}" ]; then
+              cp ./.github/genReleaseNote.sh ./
+              bash ./genReleaseNote.sh -v ${PREVERSION}...${CURRENTVERSION}
+              rm ./genReleaseNote.sh
+            else
+              printf '%s\n\nInitial release %s\n' "## What's Changed" "${CURRENTVERSION}" > release.md
+            fi
   
       - uses: actions/download-artifact@v8
         with:
@@ -450,24 +401,42 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Check Docker Hub credentials
+        id: docker
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |
+          if [ -n "${DOCKER_HUB_USER}" ] && [ -n "${DOCKER_HUB_TOKEN}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Docker Hub credentials are not configured; skipping image publish."
+          fi
+
       - name: Checkout repository
+        if: steps.docker.outputs.enabled == 'true'
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - uses: actions/download-artifact@v8
+        if: steps.docker.outputs.enabled == 'true'
         with:
           path: bin/
           merge-multiple: true
 
       - name: Display structure of downloaded files
+        if: steps.docker.outputs.enabled == 'true'
         run: ls -R
         working-directory: bin
 
       - name: Set up QEMU
+        if: steps.docker.outputs.enabled == 'true'
         uses: docker/setup-qemu-action@v4
 
       - name: Setup Docker buildx
+        if: steps.docker.outputs.enabled == 'true'
         uses: docker/setup-buildx-action@v4
         with:
           version: latest
@@ -475,7 +444,7 @@ jobs:
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.docker.outputs.enabled == 'true' && github.event_name != 'workflow_dispatch' }}
         id: meta_alpha
         uses: docker/metadata-action@v6
         with:
@@ -484,7 +453,7 @@ jobs:
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version != '' }}
+        if: ${{ steps.docker.outputs.enabled == 'true' && github.event_name == 'workflow_dispatch' && github.event.inputs.version != '' }}
         id: meta_release
         uses: docker/metadata-action@v6
         with:
@@ -496,11 +465,13 @@ jobs:
           labels: org.opencontainers.image.version=${{ github.event.inputs.version }}
       
       - name: Show files
+        if: steps.docker.outputs.enabled == 'true'
         run: |
           ls .
           ls bin/
       
       - name: login to docker REGISTRY
+        if: steps.docker.outputs.enabled == 'true'
         uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
@@ -510,7 +481,7 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.docker.outputs.enabled == 'true' && github.event_name != 'workflow_dispatch' }}
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -525,7 +496,7 @@ jobs:
           labels: ${{ steps.meta_alpha.outputs.labels }}
       
       - name: Build and push Docker image
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version != '' }}
+        if: ${{ steps.docker.outputs.enabled == 'true' && github.event_name == 'workflow_dispatch' && github.event.inputs.version != '' }}
         uses: docker/build-push-action@v7
         with:
           context: .
