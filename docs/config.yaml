@@ -133,7 +133,7 @@ profile: # 存储 select 选择记录
 # Tun 配置
 tun:
   enable: false
-  stack: mips # gvisor/mixed/system
+  stack: mips # gvisor / mixed / system；mixed 使用 sing-tun 自带的 TCP/IP 栈
   dns-hijack:
     - 0.0.0.0:53 # 需要劫持的 DNS
   # auto-detect-interface: true # 自动识别出口网卡
@@ -147,7 +147,7 @@ tun:
   # icmp-timeout: 10 # ICMP 转发会话的超时时间(秒)，默认 10
   # ICMP(ping) 按规则选择出站：出站支持 ICMP 时(wireguard/masque/openvpn/zerotier)通过代理转发，
   # 规则为 REJECT 时回送目标不可达，其余情况仍由直连转发；可用 NETWORK,ICMP,DIRECT 强制直连
-  # congestion-controller: cubic # TCP congestion controller: cubic, reno, bbr, or bbr3; only effective on mips
+  # congestion-controller: cubic # TCP congestion controller: cubic, reno, bbr, or bbr3; effective on mips, and on mixed except bbr3 which runs as bbr
   route-address-set: # 将指定规则集中的目标 IP CIDR 规则添加到防火墙, 不匹配的流量将绕过路由, 仅支持 Linux，且需要 nftables，`auto-route` 和 `auto-redirect` 已启用。
     - ruleset-1
     - ruleset-2
@@ -2803,7 +2803,7 @@ listeners:
     type: tun
     # rule: sub-rule-name1 # 默认使用 rules，如果未找到 sub-rule 则直接使用 rules
     # proxy: proxy # 如果不为空则直接将该入站流量交由指定 proxy 处理 (当 proxy 不为空时，这里的 proxy 名称必须合法，否则会出错)
-    stack: mips # gvisor / mixed / system
+    stack: mips # gvisor / mixed / system；mixed 使用 sing-tun 自带的 TCP/IP 栈
     dns-hijack:
     - 0.0.0.0:53 # 需要劫持的 DNS
     # auto-detect-interface: false # 自动识别出口网卡
@@ -2848,7 +2848,7 @@ listeners:
     # icmp-timeout: 10 # ICMP 转发会话的超时时间(秒)，默认 10
     # ICMP(ping) 按规则选择出站：出站支持 ICMP 时(wireguard/masque/openvpn/zerotier)通过代理转发，
     # 规则为 REJECT 时回送目标不可达，其余情况仍由直连转发；可用 NETWORK,ICMP,DIRECT 强制直连
-    # congestion-controller: cubic # TCP congestion controller: cubic, reno, bbr, or bbr3; only effective on mips
+    # congestion-controller: cubic # TCP congestion controller: cubic, reno, bbr, or bbr3; effective on mips, and on mixed except bbr3 which runs as bbr
 # 入口配置与 Listener 等价，传入流量将和 socks,mixed 等入口一样按照 mode 所指定的方式进行匹配处理
 # shadowsocks,vmess 入口配置（传入流量将和 socks,mixed 等入口一样按照 mode 所指定的方式进行匹配处理）
 # ss-config: ss://2022-blake3-aes-256-gcm:vlmpIPSyHH6f4S8WVPdRIHIlzmB+GIRfoH3aNJ/t9Gg=@:23456
